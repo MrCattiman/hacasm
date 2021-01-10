@@ -13,7 +13,7 @@ char** hacal_loadSet(char* filepath) {
 	FILE* file = fopen(filepath,"r");
 	char** set = malloc(sizeof(char*) * 15);
 	for(unsigned char i = 0; i < 16; i++) {
-		set[i] = malloc(sizeof(char) * 6);
+		set[i] = malloc(sizeof(char) * 11);
 		set[i][5] = 0;
 	};
 	char i = 0;
@@ -22,14 +22,17 @@ char** hacal_loadSet(char* filepath) {
 	loop:
 		if (i == 15) goto endloop;
 		get = fgetc(file);
-		bufi++;
 		if (get == '\n') {
+			set[i][bufi] = 0;
 			bufi = 0;
 			i++;
 			goto loop;
 		};
 		if (get != EOF) {
-			if (bufi < 5) set[i][bufi] = get;
+			if (bufi < 10) {
+				set[i][bufi] = get;
+				bufi++;
+			};
 	 		goto loop;
 		};
 	endloop:

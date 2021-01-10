@@ -1,4 +1,5 @@
 CC     = gcc
+CPARAM = -Wall -pedantic
 
 SRCDIR = src
 BLDDIR = build
@@ -28,11 +29,11 @@ exeinstall: $(BLDDIR)/*.out
 	cp $< $(EXEDIR)/$<
 
 hacasm: $(SRCDIR)/hacasm.c hacal_asmlib.so
-	$(CC) -o $(BLDDIR)/$@ $< build/hacal_asmlib.so
+	$(CC) $(CPARAM) -o $(BLDDIR)/$@ $< build/hacal_asmlib.so
 	chmod +x $(BLDDIR)/$@
 
 %.so: $(SRCDIR)/%.c
-	$(CC) -shared -o $(BLDDIR)/$@ -fPIC $<
+	$(CC) $(CPARAM) -shared -o $(BLDDIR)/$@ -fPIC $<
 
 %.h: $(SRCDIR)/%.c
 	cp $< $(BLDDIR)/$@

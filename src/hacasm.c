@@ -4,9 +4,11 @@
 #include <string.h>
 #include "hacal_asmlib.h"
 
-char** cset;
-char** vset;
-char* input;
+char**       cset;
+char**       vset;
+char*        input;
+char*        output;
+unsigned int inputlen;
 
 void previewSet() {
 	printf("----------\nConsonants\n----------\n\nHex | Value\n--- | -----\n");
@@ -27,11 +29,17 @@ void setIn(char* path) {
 		exit(1);
 	};
 	fseek(inputFile, 0L, SEEK_END);
-	unsigned int size = ftell(inputFile);
+	inputlen = ftell(inputFile);
 	rewind(inputFile);
-	input = (char*)malloc(size);
-	fread(input, size, 1, inputFile);
+	input = (char*)malloc(inputlen);
+	fread(input, inputlen, 1, inputFile);
 	fclose(inputFile);
+};
+
+void write(char* path) {
+	FILE* writeto = fopen(path,"w");
+	fputs(output, writeto);
+	fclose(writeto);
 };
 
 int main(int args, char *arg[]) {
@@ -48,10 +56,11 @@ int main(int args, char *arg[]) {
 		};
 		if ( strcmp(arg[i], "--input") == 0) {
 			setIn(arg[++i]);
-			printf("\n%s",input);
 		};
 		if ( strcmp(arg[i], "--text") == 0 ) {
-			hacal_asm();
+			output = hacal_asm(cset, vset, input, inputlen);
+			write(arg[++i]);
+			free(output);
 		};
 	};
 };

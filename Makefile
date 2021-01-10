@@ -3,7 +3,7 @@ CC     = gcc
 SRCDIR = src
 BLDDIR = build
 
-all: assemble.out
+all: hacal_asmlib.so
 
 %.out: $(SRCDIR)/%.c
 	$(CC) $< $(BLDDIR)/$@

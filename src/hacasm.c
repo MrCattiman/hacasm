@@ -19,7 +19,7 @@ void previewSet() {
 	for (int i = 0; i < 15; i++) {
 		printf("%3x | %s\n",i+1,vset[i]);
 	};
-};
+}
 
 void setIn(char* path) {
 	if (input != 0) free(input);
@@ -34,13 +34,13 @@ void setIn(char* path) {
 	input = (char*)malloc(inputlen);
 	fread(input, inputlen, 1, inputFile);
 	fclose(inputFile);
-};
+}
 
 void write(char* path) {
 	FILE* writeto = fopen(path,"w");
 	fputs(output, writeto);
 	fclose(writeto);
-};
+}
 
 int main(int args, char *arg[]) {
 	if (args < 3) {
@@ -63,4 +63,4 @@ int main(int args, char *arg[]) {
 			free(output);
 		};
 	};
-};
+}

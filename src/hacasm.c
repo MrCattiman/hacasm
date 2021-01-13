@@ -38,13 +38,15 @@ void setIn(char* path) {
 
 void write(char* path) {
 	FILE* writeto = fopen(path,"w");
-	fputs(output, writeto);
+	unsigned int i = 0;
+	while (output[i] != 0 || output[i + 1] != 0) i++;
+	fwrite(output, 1, i + 2, writeto);
 	fclose(writeto);
 }
 
 int main(int args, char *arg[]) {
 	if (args < 3) {
-		printf("hacasm <consonant set path> <vowel set path> [<parameter> (path)]\n\n-i <file path> or --input <file path>\n	Set the input file, must come before -t or -d.\n-t <file path> or --text <file path>\n	Output a basic HACAL text file.\n-d <file path> or --dict <file path>\n	Output a dictionary.\n-h <file path> or --headless <file path>\n	generate the selected file(s) without a header.\n--preview-set\n	Preview/test the set you would use.");
+		printf("hacasm <consonant set path> <vowel set path> [<parameter> (path)]\n\n-i <file path> or --input <file path>\n	Set the input file, must be placed before -t/--text.\n-t <file path> or --text <file path>\n	Output a basic HACAL text file.\n-d or --dict\n	Output a dictionary, must be placed before -t/--text. (Not yet implemented)\n-h <file path> or --headless <file path>\n	generate the selected file(s) without a header. (Headers are not yet implemented)\n--preview-set\n	Preview/test the set you would use.");
 		return 0;
 	};
 	cset = hacal_loadSet(arg[1]);

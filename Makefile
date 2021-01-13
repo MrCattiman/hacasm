@@ -3,6 +3,7 @@ CPARAM = -Wall -pedantic
 
 SRCDIR = src
 BLDDIR = build
+EXEDIR = /usr/bin
 
 EXES := hacasm
 
@@ -22,7 +23,7 @@ uninstall:
 	$(foreach exe,$(EXES),rm -f $(EXEDIR)/$(exe))
 
 hacasm: $(SRCDIR)/hacasm.c
-	$(CC) $(CPARAM) -o $(BLDDIR)/$@ $< -llibhacal_asm
+	$(CC) $(CPARAM) -o $(BLDDIR)/$@ $< -lhacal_asm
 	chmod +x $(BLDDIR)/$@
 
 %/:

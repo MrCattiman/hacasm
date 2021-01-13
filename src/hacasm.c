@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
-#include "hacal_asmlib.h"
+
+#include <libhacal_asm.h>
 
 char**       cset;
 char**       vset;

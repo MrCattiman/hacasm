@@ -10,6 +10,9 @@ EXEDIR = /usr/bin
 LIBS := hacal_asmlib
 EXES := hacasm
 
+clean:
+	rm -rf $(BLDDIR)
+
 all: build/ $(foreach lib,$(LIBS),$(lib).so) | $(EXES)
 	@echo
 	@echo Build done!
@@ -18,15 +21,16 @@ install:
 ifeq ($(wildcard $(LIBDIR)),)
 	mkdir $(LIBDIR)
 endif
-	cp $(BLDDIR)/*.h $(LIBDIR)/
-	cp $(BLDDIR)/*.so $(LIBDIR)/
+	$(foreach lib,$(LIBS),cp $(SRCDIR)/$(lib).h $(LIBDIR)/)
+	$(foreach lib,$(LIBS),cp $(BLDDIR)/$(lib).so $(LIBDIR)/)
 	ldconfig -n -v $(LIBDIR)
-	make exeinstall
+	$(foreach exe,$(EXES),cp $(BLDDIR)/$(exe) $(EXEDIR)/)
 	@echo
 	@echo Install done!
 
-exeinstall: $(BLDDIR)/*.out
-	cp $< $(EXEDIR)/$<
+uninstall: 
+	$(foreach exe,$(EXES),rm -f $(EXEDIR)/$(exe))
+	rm -rfv $(LIBDIR)
 
 hacasm: $(SRCDIR)/hacasm.c hacal_asmlib.so
 	$(CC) $(CPARAM) -o $(BLDDIR)/$@ $< build/hacal_asmlib.so

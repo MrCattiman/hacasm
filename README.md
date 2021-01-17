@@ -1,5 +1,9 @@
 An assembler for HACAL. 
 
+### REQUIRES HACAL LIBRARIES
+
+You can get them [here](https://github.com/MrCattiman/hacal_libs)
+
 Currently a work in progress.
 
 Run as root to install:

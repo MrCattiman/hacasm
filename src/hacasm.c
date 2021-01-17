@@ -37,7 +37,7 @@ void setIn(char* path) {
 	fclose(inputFile);
 }
 
-void write(char* path) {
+void write_hacal(char* path) {
 	FILE* writeto = fopen(path,"w");
 	unsigned int i = 0;
 	while (output[i] != 0 || output[i + 1] != 0) i++;
@@ -47,7 +47,7 @@ void write(char* path) {
 
 int main(int args, char *arg[]) {
 	if (args < 3) {
-		printf("hacasm <consonant set path> <vowel set path> [<parameter> (path)]\n\n-i <file path> or --input <file path>\n	Set the input file, must be placed before -t/--text.\n-t <file path> or --text <file path>\n	Output a basic HACAL text file.\n-d or --dict\n	Output a dictionary, must be placed before -t/--text. (Not yet implemented)\n-h <file path> or --headless <file path>\n	generate the selected file(s) without a header. (Headers are not yet implemented)\n--preview-set\n	Preview/test the set you would use.");
+		printf("hacasm <consonant set path> <vowel set path> [<parameter> (path)]\n\n-i <file path> or --input <file path>\n	Set the input file, must be placed before -t/--text or -D/--disassemble.\n-D <file path> or --disassemble <file path>\n	Disassemble the file and output HACAL in ASCII.\n-t <file path> or --text <file path>\n	Output a basic HACAL text file.\n-d or --dict\n	Output a dictionary, must be placed before -t/--text. (Not yet implemented)\n-h <file path> or --headless <file path>\n	generate the selected file(s) without a header. (Headers are not yet implemented)\n--preview-set\n	Preview/test the set you would use.");
 		return 0;
 	};
 	cset = hacal_loadSet(arg[1]);
@@ -62,7 +62,15 @@ int main(int args, char *arg[]) {
 		};
 		if ( strcmp(arg[i], "--text") == 0 ) {
 			output = hacal_asm(cset, vset, input, inputlen);
-			write(arg[++i]);
+			write_hacal(arg[++i]);
+			free(output);
+		};
+		if ( strcmp(arg[i], "--disassemble" ) == 0 ) {
+			i++;
+			output = hacal_disasm(cset, vset, input);
+			FILE* file = fopen(arg[i], "w");
+			fputs(output, file);
+			fclose(file);
 			free(output);
 		};
 	};
